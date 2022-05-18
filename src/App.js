@@ -6,22 +6,29 @@ const baseURL = "https://fakestoreapi.com/products";
 
 export default function App() {
   const [items, setItems] = React.useState(null);
+  const [searchField, setSearchField] = React.useState("");
+  const [searchShow, setSearchShow] = React.useState(false);
 
   React.useEffect(() => {
     axios.get(baseURL).then((response) => {
       setItems(response.data);
     });
   }, []);
-  // const onSearchChange =(event) => {
-  //   const searchFieldString = event.target.value.toLocaleLowerCase();
-  //   setSearch(searchFieldString);
-  // };
 
   if (!items) return null;
+
+  const handleChange = (e) => {
+    setSearchField(e.target.value);
+    if (e.target.value === "") {
+      setSearchShow(false);
+    } else {
+      setSearchShow(true);
+    }
+  };
+
   return (
     <div className="app">
-      <input onChange={(event) => {}} type="search" />
-      {console.log(event)}
+      <input placeholder="search" type="search" onChange={handleChange} />
       <h1>List of Products : </h1>
       {items.map((list) => (
         <div className="box">
